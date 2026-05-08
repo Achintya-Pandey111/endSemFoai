@@ -6,15 +6,12 @@ import toast from 'react-hot-toast';
 const NewsContext = createContext();
 
 export const NewsProvider = ({ children }) => {
-  const [articles, setArticles] = useState(() => storage.get('news_cache') || []);
+  const [articles, setArticles] = useState(() => storage.get('news_cache_v2') || []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [lastUpdated, setLastUpdated] = useState(() => storage.get('news_last_updated') || 0);
-
-  const apiKey = import.meta.env.VITE_NEWS_API_KEY;
+  const [lastUpdated, setLastUpdated] = useState(() => storage.get('news_last_updated_v2') || 0);
 
   const updateNews = useCallback(async (force = false) => {
-    // Cache for 15 minutes
     const now = Date.now();
     if (!force && articles.length > 0 && now - lastUpdated < 15 * 60 * 1000) {
       return;
@@ -24,31 +21,23 @@ export const NewsProvider = ({ children }) => {
     setError(null);
 
     try {
-      if (!apiKey) {
-        throw new Error('News API key missing');
-      }
-
-      const [techArticles, scienceArticles] = await Promise.all([
-        fetchNews('technology', apiKey),
-        fetchNews('science', apiKey)
-      ]);
+      const allArticles = await fetchNews(30); // Fetch 30 latest articles
       
-      const allArticles = [...techArticles, ...scienceArticles];
       setArticles(allArticles);
       setLastUpdated(now);
       
-      storage.set('news_cache', allArticles, 15); // 15 mins TTL
-      storage.set('news_last_updated', now);
+      storage.set('news_cache_v2', allArticles, 15);
+      storage.set('news_last_updated_v2', now);
     } catch (err) {
       console.error('News fetch error:', err);
-      setError('Failed to fetch news');
+      setError('Failed to fetch orbital intelligence');
       if (articles.length === 0) {
-        toast.error('News update failed. Check your API key.');
+        toast.error('Intelligence network sync failed.');
       }
     } finally {
       setLoading(false);
     }
-  }, [apiKey, articles.length, lastUpdated]);
+  }, [articles.length, lastUpdated]);
 
   useEffect(() => {
     updateNews();

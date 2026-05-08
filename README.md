@@ -7,10 +7,10 @@ OrbitScope is a futuristic, full-stack frontend dashboard that tracks the Intern
 - **Live ISS Tracker**: Real-time position, velocity calculation (Haversine), and trajectory path.
 - **Geocoding**: Automatic reverse geocoding to show the nearest city or ocean.
 - **People in Space**: Live list of astronauts currently aboard the ISS.
-- **Intel Dashboard**: Latest Technology and Science news with search, filtering, and caching.
-- **AI Assistant**: Context-aware chatbot powered by Mistral-7B via Hugging Face.
-- **Analytics**: Real-time speed charts and news distribution data.
-- **Premium UI**: Dark/Light modes, glassmorphism, and responsive design.
+10. - **Intel Dashboard**: Latest Spaceflight news powered by SNAPI with search and caching.
+11. - **AI Assistant**: Context-aware chatbot powered by DeepSeek via Hugging Face.
+12. - **Analytics**: Real-time speed charts and news distribution data.
+13. - **Premium UI**: Architectural grid design inspired by t11.com.
 
 ## 🛠️ Tech Stack
 
@@ -29,23 +29,21 @@ OrbitScope is a futuristic, full-stack frontend dashboard that tracks the Intern
    ```bash
    npm install
    ```
-3. **Environment Variables**:
-   Create a `.env` file in the root directory and add your API keys:
-   ```env
-   VITE_NEWS_API_KEY=your_news_api_key
-   VITE_AI_TOKEN=your_huggingface_token
-   ```
+33.    Create a `.env` file in the root directory and add your token:
+34.    ```env
+35.    VITE_AI_TOKEN=your_huggingface_token
+36.    ```
 4. **Run development server**:
    ```bash
    npm run dev
    ```
 
-## 🔑 API Keys
+## 🔑 Data Providers
 
-- **NewsAPI**: Get a free key at [gnews.io](https://gnews.io/).
+- **Space Intelligence**: Provided by [Spaceflight News API](https://www.spaceflightnewsapi.net/) (No key required).
 - **Hugging Face**: Get an inference token at [huggingface.co](https://huggingface.co/settings/tokens).
 - **ISS Data**: Provided by [Where The ISS At?](https://wheretheiss.at/w/developer) (No key required).
-- **Geocoding**: Provided by [Nominatim (OpenStreetMap)](https://nominatim.org/) (No key required for small usage).
+- **Geocoding**: Provided by [Nominatim (OpenStreetMap)](https://nominatim.org/) (No key required).
 
 ## 🌍 Deployment
 

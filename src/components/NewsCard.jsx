@@ -6,65 +6,52 @@ import { cn } from '../utils/cn';
 const NewsCard = ({ article, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.1 }}
-      className="glass overflow-hidden rounded-3xl group flex flex-col h-full hover:border-primary/30 transition-colors"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05 }}
+      className="t11-grid-item group flex flex-col h-full bg-background border-r border-b border-foreground/10"
     >
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative aspect-video overflow-hidden border-b border-foreground/10">
         {article.urlToImage ? (
           <img 
             src={article.urlToImage} 
             alt={article.title} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="w-full h-full object-cover transition-all duration-700 scale-105 group-hover:scale-100"
           />
         ) : (
-          <div className="w-full h-full bg-secondary flex items-center justify-center">
-            <Tag size={40} className="text-muted-foreground opacity-20" />
+          <div className="w-full h-full bg-foreground/5 flex items-center justify-center">
+            <Tag size={32} className="text-foreground/10" />
           </div>
         )}
-        <div className="absolute top-4 left-4">
-          <span className={cn(
-            "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md",
-            article.category === 'technology' ? "bg-blue-500/80" : "bg-purple-500/80"
-          )}>
-            {article.category}
-          </span>
-        </div>
       </div>
 
-      <div className="p-6 flex flex-col flex-1">
-        <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-          <span className="flex items-center gap-1">
-            <Clock size={14} />
-            {new Date(article.publishedAt).toLocaleDateString()}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
-          <span className="flex items-center gap-1 truncate max-w-[120px]">
-            <User size={14} />
-            {article.author || article.source.name}
+      <div className="pt-8 flex flex-col flex-1">
+        <div className="flex items-center justify-between mb-6">
+          <span className="t11-label !mb-0">{article.category}</span>
+          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
+            {new Date(article.publishedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
           </span>
         </div>
 
-        <h3 className="text-lg font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors leading-tight">
+        <h3 className="text-2xl font-black text-foreground mb-4 line-clamp-2 leading-[1.1] tracking-tighter uppercase">
           {article.title}
         </h3>
         
-        <p className="text-sm text-muted-foreground line-clamp-3 mb-6 flex-1">
-          {article.description || "No description available for this article."}
+        <p className="text-sm text-muted-foreground line-clamp-3 mb-10 flex-1 leading-relaxed">
+          {article.description || "The intelligence report for this sector is currently undergoing verification. Please check back for updates."}
         </p>
 
-        <div className="mt-auto pt-4 border-t border-border flex items-center justify-between">
-          <span className="text-xs font-bold text-muted-foreground truncate max-w-[100px]">
-            {article.source.name}
+        <div className="mt-auto flex items-center justify-between group/link">
+          <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest">
+            Source: {article.source.name}
           </span>
           <a 
             href={article.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-xs font-bold text-primary hover:gap-3 transition-all"
+            className="t11-button !px-4 !py-2 flex items-center gap-2 group-hover:bg-foreground group-hover:text-background"
           >
-            READ MORE <ExternalLink size={14} />
+            Access <ExternalLink size={12} />
           </a>
         </div>
       </div>

@@ -69,30 +69,30 @@ export const fetchReverseGeocode = async (lat, lon) => {
   }
 };
 
-export const fetchNews = async (category, apiKey) => {
-  if (!apiKey || apiKey.includes('http')) return []; 
-  
+export const fetchNews = async (limit = 20) => {
   try {
-    // newsapi.org endpoint
     const response = await api.get(
-      `https://newsapi.org/v2/top-headlines?category=${category}&language=en&pageSize=10&apiKey=${apiKey}`
+      `https://api.spaceflightnewsapi.net/v4/articles/?limit=${limit}`
     );
     
-    if (!response.data || !response.data.articles) {
-      console.warn(`No articles found in NewsAPI response for category: ${category}`);
+    if (!response.data || !response.data.results) {
+      console.warn(`No articles found in Spaceflight News API response`);
       return [];
     }
 
-    return response.data.articles
-      .filter(article => article.title !== '[Removed]') // NewsAPI sometimes returns [Removed]
-      .map(article => ({
-        ...article,
-        urlToImage: article.urlToImage || '', 
-        author: article.author || article.source?.name || 'Global News',
-        category: category 
-      }));
+    return response.data.results.map(article => ({
+      id: article.id,
+      title: article.title,
+      url: article.url,
+      urlToImage: article.image_url,
+      description: article.summary,
+      publishedAt: article.published_at,
+      source: { name: article.news_site },
+      author: article.authors && article.authors.length > 0 ? article.authors[0].name : article.news_site,
+      category: 'space' // Default category for this API
+    }));
   } catch (error) {
-    console.error(`NewsAPI Error (${category}):`, error.response?.data?.message || error.message);
+    console.error(`Spaceflight News API Error:`, error.message);
     return [];
   }
 };

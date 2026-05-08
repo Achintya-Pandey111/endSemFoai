@@ -38,54 +38,58 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       )}
 
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-64 glass transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 border-r border-border",
+        "fixed inset-y-0 left-0 z-50 w-64 bg-background transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 border-r border-border/20",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex flex-col h-full p-6">
-          <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col h-full p-8">
+          <div className="flex items-center justify-between mb-16">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary rounded-xl text-white shadow-lg shadow-primary/30">
-                <Orbit size={24} />
+              <div className="p-2 border border-foreground text-foreground">
+                <Orbit size={20} />
               </div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground">OrbitScope</h1>
+              <h1 className="text-xl font-black tracking-tighter text-foreground uppercase">OrbitScope</h1>
             </div>
-            <button className="lg:hidden text-muted-foreground" onClick={() => setIsOpen(false)}>
+            <button className="lg:hidden text-foreground" onClick={() => setIsOpen(false)}>
               <X size={20} />
             </button>
           </div>
 
-          <nav className="flex-1 space-y-2">
+          <nav className="flex-1 space-y-1">
+            <span className="t11-label">Navigation</span>
             {navItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => handleNavigation(item.id, item.path)}
                 className={cn(
-                  "flex items-center gap-3 w-full p-3 rounded-xl transition-all group",
+                  "flex items-center justify-between w-full p-3 transition-all group border-b border-border/10",
                   location.pathname === item.path 
-                    ? "bg-primary text-white shadow-lg shadow-primary/30" 
-                    : "text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                    ? "text-foreground font-bold" 
+                    : "text-muted-foreground hover:text-foreground"
                 )}
               >
-                <item.icon size={20} className={cn(location.pathname !== item.path && "group-hover:scale-110 transition-transform")} />
-                <span className="font-medium">{item.label}</span>
+                <div className="flex items-center gap-3">
+                  <item.icon size={16} />
+                  <span className="text-[11px] font-bold tracking-[0.2em] uppercase">{item.label}</span>
+                </div>
+                {location.pathname === item.path && <div className="w-1 h-1 bg-foreground rounded-full" />}
               </button>
             ))}
           </nav>
 
-          <div className="mt-auto pt-6 border-t border-border space-y-4">
+          <div className="mt-auto pt-8 border-t border-border/20 space-y-6">
             <button 
               onClick={toggleTheme}
-              className="flex items-center gap-3 w-full p-3 rounded-xl bg-secondary hover:bg-secondary/80 transition-all text-foreground"
+              className="flex items-center justify-between w-full p-2 text-foreground group"
             >
-              {isDark ? <Sun size={20} className="text-yellow-500" /> : <Moon size={20} className="text-blue-500" />}
-              <span className="font-medium">{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+              <span className="text-[10px] font-bold tracking-widest uppercase">{isDark ? 'Light' : 'Dark'}</span>
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             
-            <div className="p-4 rounded-2xl bg-primary/5 border border-primary/10">
-              <p className="text-xs text-muted-foreground mb-2">System Status</p>
+            <div className="p-4 border border-foreground/10 bg-foreground/[0.02]">
+              <span className="t11-label !mb-2">System Status</span>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-sm font-semibold">All Systems GO</span>
+                <div className="w-1.5 h-1.5 bg-foreground animate-pulse" />
+                <span className="text-[10px] font-bold tracking-widest uppercase">Operational</span>
               </div>
             </div>
           </div>

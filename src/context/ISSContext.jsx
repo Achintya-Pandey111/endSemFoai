@@ -42,7 +42,7 @@ export const ISSProvider = ({ children }) => {
 
       setLocation(newPos);
       
-      const updatedHistory = [...history, newPos].slice(-30);
+      const updatedHistory = [...history, newPos].slice(-200);
       setHistory(updatedHistory);
       storage.set('iss_history', updatedHistory);
 

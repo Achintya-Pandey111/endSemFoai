@@ -21,16 +21,16 @@ function App() {
 
           <main className="flex-1 flex flex-col h-screen overflow-hidden">
             {/* Mobile Header */}
-            <header className="lg:hidden p-4 border-b border-border flex items-center justify-between glass">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-primary rounded-lg text-white">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M6.7 6.7 17.3 17.3"/><path d="m17.3 6.7-10.6 10.6"/></svg>
+            <header className="lg:hidden p-6 border-b border-border/20 flex items-center justify-between bg-background">
+              <div className="flex items-center gap-3">
+                <div className="p-2 border border-foreground text-foreground">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M6.7 6.7 17.3 17.3"/><path d="m17.3 6.7-10.6 10.6"/></svg>
                 </div>
-                <h1 className="font-bold">OrbitScope</h1>
+                <h1 className="text-lg font-black tracking-tighter uppercase">OrbitScope</h1>
               </div>
               <button 
                 onClick={() => setSidebarOpen(true)}
-                className="p-2 text-muted-foreground hover:bg-secondary rounded-lg"
+                className="p-2 text-foreground hover:bg-foreground/5"
               >
                 <Menu size={24} />
               </button>
