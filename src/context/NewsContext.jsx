@@ -28,13 +28,10 @@ export const NewsProvider = ({ children }) => {
         throw new Error('News API key missing');
       }
 
-      const [tech, science] = await Promise.all([
+      const [techArticles, scienceArticles] = await Promise.all([
         fetchNews('technology', apiKey),
         fetchNews('science', apiKey)
       ]);
-
-      const techArticles = tech.map(a => ({ ...a, category: 'technology' }));
-      const scienceArticles = science.map(a => ({ ...a, category: 'science' }));
       
       const allArticles = [...techArticles, ...scienceArticles];
       setArticles(allArticles);
