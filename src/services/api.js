@@ -68,31 +68,28 @@ export const fetchChatResponse = async (messages, token) => {
   if (!token) throw new Error('AI token is missing');
 
   try {
+    // Switching to DeepSeek-V4-Pro via HF OpenAI-compatible Router
     const response = await api.post(
-      'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2',
+      'https://router.huggingface.co/v1/chat/completions',
       {
-        inputs: messages,
-        parameters: {
-          max_new_tokens: 250,
-          temperature: 0.7,
-          return_full_text: false,
-        },
+        model: 'deepseek-ai/DeepSeek-V4-Pro:novita',
+        messages: messages,
+        max_tokens: 500,
+        temperature: 0.7,
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       }
     );
 
-    if (response.data.error && response.data.error.includes('currently loading')) {
-      return "I'm currently warming up my orbital processors. Please try again in 30 seconds!";
-    }
-
-    return response.data[0]?.generated_text || response.data.generated_text;
+    return response.data.choices[0].message.content;
   } catch (error) {
-    if (error.response?.status === 503) {
-      return "My AI core is currently loading on the server. I'll be ready in a few moments!";
+    console.error('AI Router Error:', error.response?.data || error.message);
+    if (error.response?.status === 401) {
+      throw new Error('Unauthorized: Please check your HF_TOKEN');
     }
     throw error;
   }

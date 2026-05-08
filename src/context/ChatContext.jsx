@@ -44,8 +44,7 @@ export const ChatProvider = ({ children }) => {
       const issData = `ISS Position: Lat ${issLat}, Lng ${issLng}. Speed: ${issSpeed} km/h. Location: ${issAddr}. Crew: ${crewCount} astronauts (${crewNames}).`;
       const newsData = `News Status: ${newsCount} articles found. Headlines: ${newsHeadlines}.`;
 
-      // Mistral Instruct format: [INST] system_prompt \n user_prompt [/INST]
-      const prompt = `[INST] You are OrbitScope AI, a professional dashboard assistant.
+      const systemPrompt = `You are OrbitScope AI, a professional dashboard assistant.
       
 RULES:
 1. ONLY use the provided Dashboard Data to answer.
@@ -55,10 +54,12 @@ RULES:
 
 DASHBOARD DATA:
 ${issData}
-${newsData}
+${newsData}`;
 
-QUESTION:
-${text} [/INST]`;
+      const fullPrompt = [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: text }
+      ];
 
       if (!aiToken) {
         // Mock response for testing if token is missing
@@ -75,7 +76,7 @@ ${text} [/INST]`;
         return;
       }
 
-      const aiText = await fetchChatResponse(prompt, aiToken);
+      const aiText = await fetchChatResponse(fullPrompt, aiToken);
       
       const aiMsg = { 
         id: Date.now() + 1, 
